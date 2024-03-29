@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Declare the ManageVacationActivity -->
+        <activity android:name=".ManageVacationActivity" />
+        <activity android:name=".VacationListActivity" />
     </application>
 
 </manifest>
