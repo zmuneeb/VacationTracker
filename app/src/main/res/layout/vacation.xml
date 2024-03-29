@@ -28,17 +28,17 @@
             android:layout_height="wrap_content"
             android:hint="Place of Stay"/>
 
-        <EditText
-            android:id="@+id/startDateEditText"
+        <Button
+            android:id="@+id/startDateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Start Date"/>
+            android:hint="Select Start Date"/>
 
-        <EditText
-            android:id="@+id/endDateEditText"
+        <Button
+            android:id="@+id/endDateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="End Date"/>
+            android:hint="Select End Date"/>
 
         <CheckBox
             android:id="@+id/addExcursionCheckBox"
@@ -51,6 +51,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Excursion name"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/excursionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Excursion Date"
             android:visibility="gone" />
 
         <Button

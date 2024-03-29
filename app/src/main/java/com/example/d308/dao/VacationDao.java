@@ -22,4 +22,6 @@ public interface VacationDao {
 
     @Query("SELECT * FROM vacation_table")
     LiveData<List<Vacation>> getAllVacations();
+    @Query("SELECT * FROM vacation_table WHERE id = :id")
+    LiveData<Vacation> getVacationById(long id);
 }

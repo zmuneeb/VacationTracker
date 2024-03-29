@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class VacationListActivity extends AppCompatActivity {
     private VacationViewModel vacationViewModel;
-    private ArrayAdapter<Vacation> adapter;
+    private VacationAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,34 +37,40 @@ public class VacationListActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         TextView emptyView = findViewById(R.id.emptyView);
         listView.setEmptyView(emptyView);
-        vacationViewModel.getAllVacations().observe(this, new Observer<List<Vacation>>() {
-            @Override
-            public void onChanged(List<Vacation> vacations) {
-                // Update the ListView
-                adapter = new VacationAdapter(VacationListActivity.this, vacations);
-                listView.setAdapter(adapter);
-            }
-        });
 
-        // Set up the Add Vacation button
+        adapter = new VacationAdapter(VacationListActivity.this, new ArrayList<>());
+        listView.setAdapter(adapter);
+
         Button addVacationButton = findViewById(R.id.addVacationButton);
         addVacationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to ManageVacationActivity
                 Intent intent = new Intent(VacationListActivity.this, ManageVacationActivity.class);
                 startActivity(intent);
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        vacationViewModel.getAllVacations().observe(this, new Observer<List<Vacation>>() {
+            @Override
+            public void onChanged(List<Vacation> vacations) {
+                // Update the ListView
+                adapter.clear();
+                adapter.addAll(vacations);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     private class VacationAdapter extends ArrayAdapter<Vacation> {
         private Context context;
-        private List<Vacation> vacations;
 
         public VacationAdapter(Context context, List<Vacation> vacations) {
             super(context, R.layout.vacation_item, vacations);
             this.context = context;
-            this.vacations = vacations;
         }
 
         @NonNull
@@ -75,32 +80,34 @@ public class VacationListActivity extends AppCompatActivity {
                 convertView = LayoutInflater.from(context).inflate(R.layout.vacation_item, parent, false);
             }
 
-            Vacation vacation = vacations.get(position);
+            Vacation vacation = getItem(position);
 
             TextView nameTextView = convertView.findViewById(R.id.nameTextView);
             Button deleteButton = convertView.findViewById(R.id.deleteButton);
+            Button updateButton = convertView.findViewById(R.id.updateButton);
 
             nameTextView.setText(vacation.getName());
 
             deleteButton.setOnClickListener(v -> {
-                // If the vacation has an excursion, show a confirmation dialog
                 if (vacation.getExcursionName() != null && !vacation.getExcursionName().isEmpty()) {
                     new AlertDialog.Builder(context)
                             .setTitle("Delete Vacation")
                             .setMessage("Are you sure you want to delete this vacation with its associated excursion?")
                             .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                                // Continue with delete
                                 vacationViewModel.delete(vacation);
-                                notifyDataSetChanged();
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
                 } else {
-                    // If the vacation doesn't have an excursion, delete it directly
                     vacationViewModel.delete(vacation);
-                    notifyDataSetChanged();
                 }
+            });
+
+            updateButton.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ManageVacationActivity.class);
+                intent.putExtra("vacationId", vacation.getId());
+                context.startActivity(intent);
             });
 
             return convertView;

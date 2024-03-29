@@ -43,4 +43,7 @@ public class AppRepository {
     public LiveData<List<Vacation>> getAllVacations() {
         return allVacations;
     }
+    public LiveData<Vacation> getVacationById(long id) {
+        return vacationDao.getVacationById(id);
+    }
 }
