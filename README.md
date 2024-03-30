@@ -28,4 +28,4 @@
  - The minimum SDK version for the app is 26, or Android 8.0.
 
 ## Link to Git Repository
- - 
+ - https://gitlab.com/wgu-gitlab-environment/student-repos/mzaman8/d308-mobile-application-development-android/-/tree/working_branch
