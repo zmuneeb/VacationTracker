@@ -1,7 +1,12 @@
 package com.example.d308;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -192,6 +197,32 @@ public class ManageVacationActivity extends AppCompatActivity {
                                 excursionViewModel.update(excursion);
                             }
                         }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (currentVacation != null) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
+                    try {
+                        Date vacationStartDate = sdf.parse(currentVacation.getStartDate());
+                        Date vacationEndDate = sdf.parse(currentVacation.getEndDate());
+
+                        // Set up the start date alarm
+                        Intent startIntent = new Intent(ManageVacationActivity.this, VacationAlarmReceiver.class);
+                        startIntent.putExtra(VacationAlarmReceiver.EXTRA_TITLE, currentVacation.getName());
+                        startIntent.putExtra(VacationAlarmReceiver.EXTRA_TYPE, "Start");
+                        int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0;
+                        PendingIntent startPendingIntent = PendingIntent.getBroadcast(ManageVacationActivity.this, 0, startIntent, flags);
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, vacationStartDate.getTime(), startPendingIntent);
+
+                        // Set up the end date alarm
+                        Intent endIntent = new Intent(ManageVacationActivity.this, VacationAlarmReceiver.class);
+                        endIntent.putExtra(VacationAlarmReceiver.EXTRA_TITLE, currentVacation.getName());
+                        endIntent.putExtra(VacationAlarmReceiver.EXTRA_TYPE, "End");
+                        PendingIntent endPendingIntent = PendingIntent.getBroadcast(ManageVacationActivity.this, 1, endIntent, flags);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, vacationEndDate.getTime(), endPendingIntent);
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

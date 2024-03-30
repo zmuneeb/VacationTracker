@@ -27,8 +27,12 @@ import com.example.d308.entities.Excursion;
 import com.example.d308.entities.Vacation;
 import com.example.d308.viewmodel.ExcursionViewModel;
 import com.example.d308.viewmodel.VacationViewModel;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VacationListActivity extends AppCompatActivity {
     private VacationViewModel vacationViewModel;
@@ -37,7 +41,13 @@ public class VacationListActivity extends AppCompatActivity {
     private BroadcastReceiver vacationAlarmReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
+            String title = intent.getStringExtra(VacationAlarmReceiver.EXTRA_TITLE);
+            String type = intent.getStringExtra(VacationAlarmReceiver.EXTRA_TYPE);
+
+            // Get the current date
+            String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
+
+            String message = "Vacation " + type + ": " + title + " on " + date;
 
             new AlertDialog.Builder(VacationListActivity.this)
                     .setTitle("Alarm")
