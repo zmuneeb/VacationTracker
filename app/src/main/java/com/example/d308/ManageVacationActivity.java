@@ -178,6 +178,25 @@ public class ManageVacationActivity extends AppCompatActivity {
                         }
                     }
                 }
+                if (currentVacation != null) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
+                    try {
+                        Date vacationStartDate = sdf.parse(currentVacation.getStartDate());
+                        Date vacationEndDate = sdf.parse(currentVacation.getEndDate());
+
+                        for (Excursion excursion : selectedExcursionsList) {
+                            Date excursionDate = sdf.parse(excursion.getDate());
+                            if (excursionDate.before(vacationStartDate) || excursionDate.after(vacationEndDate)) {
+                                Toast.makeText(ManageVacationActivity.this, "The excursion " + excursion.getName() + " is not within the vacation time.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                excursion.setVacationId(currentVacation.getId());
+                                excursionViewModel.update(excursion);
+                            }
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
                 finish();
             }
         });
@@ -221,31 +240,24 @@ public class ManageVacationActivity extends AppCompatActivity {
 
                                 // Save the selected excursions to the list
                                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
-                                for (int i = 0; i < allExcursions.size(); i++) {
-                                    if (selectedExcursions[i]) {
-                                        Excursion selectedExcursion = allExcursions.get(i);
-                                        try {
+                                try {
+                                    Date vacationStartDate = sdf.parse(startDateButton.getText().toString());
+                                    Date vacationEndDate = sdf.parse(endDateButton.getText().toString());
+
+                                    for (int i = 0; i < allExcursions.size(); i++) {
+                                        if (selectedExcursions[i]) {
+                                            Excursion selectedExcursion = allExcursions.get(i);
                                             Date excursionDate = sdf.parse(selectedExcursion.getDate());
-                                            Date vacationStartDate = sdf.parse(currentVacation.getStartDate());
-                                            Date vacationEndDate = sdf.parse(currentVacation.getEndDate());
 
                                             if (excursionDate.before(vacationStartDate) || excursionDate.after(vacationEndDate)) {
                                                 Toast.makeText(ManageVacationActivity.this, "The excursion " + selectedExcursion.getName() + " is not within the vacation time.", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 selectedExcursionsList.add(selectedExcursion);
                                             }
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
                                         }
                                     }
-                                }
-
-                                // If a vacation is already selected, update the excursions immediately
-                                if (currentVacation != null) {
-                                    for (Excursion excursion : selectedExcursionsList) {
-                                        excursion.setVacationId(currentVacation.getId());
-                                        excursionViewModel.update(excursion);
-                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
 
                                 // Remove the observer
