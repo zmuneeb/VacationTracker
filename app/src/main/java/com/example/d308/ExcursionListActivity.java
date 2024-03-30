@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -82,16 +83,14 @@ public class ExcursionListActivity extends AppCompatActivity {
             Excursion excursion = getItem(position);
             TextView nameTextView = convertView.findViewById(R.id.nameTextView);
             nameTextView.setText(excursion.getName());
-            Button deleteButton = convertView.findViewById(R.id.deleteButton);
+            ImageView deleteButton = convertView.findViewById(R.id.deleteButton);
             Button updateButton = convertView.findViewById(R.id.updateButton);
 
             deleteButton.setOnClickListener(v -> {
-                // Delete the excursion
                 excursionViewModel.delete(excursion);
             });
 
             updateButton.setOnClickListener(v -> {
-                // Update the excursion
                 Intent intent = new Intent(context, ExcursionActivity.class);
                 intent.putExtra("excursionId", excursion.getId());
                 context.startActivity(intent);

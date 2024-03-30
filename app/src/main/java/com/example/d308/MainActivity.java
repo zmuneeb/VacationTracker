@@ -14,12 +14,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set up the View Vacations button
         Button vacationListButton = findViewById(R.id.vacationListButton);
         vacationListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to VacationListActivity
                 Intent intent = new Intent(MainActivity.this, VacationListActivity.class);
                 startActivity(intent);
             }
@@ -28,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         excursionListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to ExcursionListActivity
                 Intent intent = new Intent(MainActivity.this, ExcursionListActivity.class);
                 startActivity(intent);
             }

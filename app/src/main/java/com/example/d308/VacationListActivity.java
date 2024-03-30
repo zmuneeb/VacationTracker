@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -75,6 +77,7 @@ public class VacationListActivity extends AppCompatActivity {
     }
     private class VacationAdapter extends ArrayAdapter<Vacation> {
         private Context context;
+        private List<Excursion> latestExcursions;
 
         public VacationAdapter(Context context, List<Vacation> vacations) {
             super(context, R.layout.vacation_item, vacations);
@@ -92,8 +95,9 @@ public class VacationListActivity extends AppCompatActivity {
 
             TextView nameTextView = convertView.findViewById(R.id.nameTextView);
             Button viewButton = convertView.findViewById(R.id.viewButton);
-            Button deleteButton = convertView.findViewById(R.id.deleteButton);
+            ImageView deleteButton = convertView.findViewById(R.id.deleteButton);
             Button updateButton = convertView.findViewById(R.id.updateButton);
+            Button shareButton = convertView.findViewById(R.id.shareButton);
 
             nameTextView.setText(vacation.getName());
 
@@ -134,6 +138,35 @@ public class VacationListActivity extends AppCompatActivity {
                         excursionViewModel.getExcursionsForVacation(vacation.getId()).removeObserver(this);
                     }
                 });
+            });
+            excursionViewModel.getExcursionsForVacation(vacation.getId()).observe((LifecycleOwner) context, new Observer<List<Excursion>>() {
+                @Override
+                public void onChanged(List<Excursion> excursions) {
+                    latestExcursions = excursions;
+                }
+            });
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    StringBuilder vacationDetails = new StringBuilder();
+                    vacationDetails.append("Name: ").append(vacation.getName()).append("\n");
+                    vacationDetails.append("Location: ").append(vacation.getLocation()).append("\n");
+                    vacationDetails.append("Place of Stay: ").append(vacation.getPlaceOfStay()).append("\n");
+                    vacationDetails.append("Start Date: ").append(vacation.getStartDate()).append("\n");
+                    vacationDetails.append("End Date: ").append(vacation.getEndDate()).append("\n");
+
+                    // Add the excursions to the vacation details
+                    if (latestExcursions != null) {
+                        for (Excursion excursion : latestExcursions) {
+                            vacationDetails.append("Excursion: ").append(excursion.getName()).append(" on ").append(excursion.getDate()).append("\n");
+                        }
+                    }
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, vacationDetails.toString());
+                    context.startActivity(Intent.createChooser(shareIntent, "Share via"));
+                }
             });
             return convertView;
         }

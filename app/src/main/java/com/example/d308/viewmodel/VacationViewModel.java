@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
 import com.example.d308.entities.Vacation;
 import com.example.d308.repository.AppRepository;
 

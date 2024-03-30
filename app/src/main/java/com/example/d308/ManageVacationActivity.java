@@ -69,7 +69,6 @@ public class ManageVacationActivity extends AppCompatActivity {
         excursionViewModel.getExcursionsForVacation(vacationId).observe(this, new Observer<List<Excursion>>() {
             @Override
             public void onChanged(List<Excursion> excursions) {
-                // Update your UI with the list of excursions
             }
         });
 
@@ -204,7 +203,6 @@ public class ManageVacationActivity extends AppCompatActivity {
     private void showExcursionSelectionDialog() {
         MutableLiveData<List<Excursion>> mutableLiveData = new MutableLiveData<>();
 
-        // Observe the MutableLiveData instead of the LiveData from ViewModel
         mutableLiveData.observe(this, new Observer<List<Excursion>>() {
             @Override
             public void onChanged(List<Excursion> allExcursions) {
@@ -213,32 +211,26 @@ public class ManageVacationActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Create an array of excursion names
                 String[] excursionNames = new String[allExcursions.size()];
                 for (int i = 0; i < allExcursions.size(); i++) {
                     excursionNames[i] = allExcursions.get(i).getName();
                 }
 
-                // Create a boolean array for selected excursions
                 final boolean[] selectedExcursions = new boolean[allExcursions.size()];
 
-                // Show the dialog
                 new AlertDialog.Builder(ManageVacationActivity.this)
                         .setTitle("Select Excursions")
                         .setMultiChoiceItems(excursionNames, selectedExcursions, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                // Update the selectedExcursions array
                                 selectedExcursions[which] = isChecked;
                             }
                         })
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Clear the selectedExcursionsList to avoid duplicates
                                 selectedExcursionsList.clear();
 
-                                // Save the selected excursions to the list
                                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
                                 try {
                                     Date vacationStartDate = sdf.parse(startDateButton.getText().toString());
@@ -269,7 +261,6 @@ public class ManageVacationActivity extends AppCompatActivity {
             }
         });
 
-        // Get all excursions from ViewModel and set the value of MutableLiveData
         excursionViewModel.getAllExcursions().observe(this, new Observer<List<Excursion>>() {
             @Override
             public void onChanged(List<Excursion> allExcursions) {

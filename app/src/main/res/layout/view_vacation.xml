@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Vacation Information:"
+        android:textStyle="bold"
         android:textSize="24sp"
         android:padding="10dp" />
 
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Excursions:"
+        android:textStyle="bold"
         android:textSize="24sp"
         android:padding="10dp" />
 
