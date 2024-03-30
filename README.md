@@ -2,27 +2,30 @@
 
 # WESTERN GOVERNOR UNIVERSITY 
 ## D308 – MOBILE APPLICATION DEVELOPMENT (ANDROID)
-Welcome to Mobile Application Development (Android)! This is an opportunity for students to create page layouts with clean navigation, design mobile application infrastructure and user interfaces, develop secure database-backed mobile applications in an object-oriented language, document solutions for application requirements with storyboards and emulators, articulate challenges in the development process, and describe alternatives methods in overcoming mobile application development problems. 
 
-FOR SPECIFIC TASK INSTRUCTIONS AND REQUIREMENTS FOR THIS ASSESSMENT, PLEASE REFER TO THE COURSE PAGE.
-## BASIC INSTRUCTIONS
-For this assessment, you have an opportunity to test your competency as a mobile application developer. Your understanding of mobile application structure and design will help you to develop applications to meet customer requirements. This task will allow you to demonstrate your ability to apply the skills learned in the course.
+## Vacation Tracker Application
+ - The purpose of the application is to allow users to add vacations and excursions associated with their vacations.
+ - The vacation contains information like location, place of stay, dates, and excursions associated with it.
+ - The user can view and share the vacations that they create.
 
-## SUPPLEMENTAL RESOURCES 
-1.	How to clone a project to Android Studio using Git?
+## How to operate the app
+ - Once the user opens the app, they will be welcomed on the homepage. They have two options, view their vacations or view their excursions.
+ - If they click on the vacations, they will land on the Vacations page. Currently it will be empty if this is the user's first time, so they will have to click the button that says "Add Vacation".
+ - The "Add Vacation" page allows the user to add information for their vacation.
+ - Similarly, the Excursions page behaves in the same fashion.
+ - After a user has created an excursion, they can add this excursion to a vacation in the "Add Vacation" page.
+ - Options will be shown under each created vacation or excursion.
+ - For vacations, options shown are View, Update, Share, and Delete.
+  - The View button will take the user to a page that shows all information about the vacation.
+  - The Update button allows the user to change information about the vacation. 
+  - The Share button allows the user to share the vacation via text, email, etc.
+  - The Delete button allows the user to delete the vacation.
+ - For excursions, there are two buttons: View/Update, and Delete.
+  - The View/Update is the same as the "Add Excursion" page, since the information for excursions is just two fields, it can be used to view the excursion information as well.
+  - The Delete button will delete the excursion.
 
-> Ensure that Android Studio and Git are installed on your system.  New Project, Get from VCS button or the File/New/Project from Version Control. This will open a window  with a prompt to clone the project. Save it in a safe location for the directory and press clone. IntelliJ will prompt you for your credentials. Enter in your WGU Credentials and the project will be cloned onto your local machine.
+## Android Version
+ - The minimum SDK version for the app is 26, or Android 8.0.
 
-2. How to create a branch and start Development?
-
-- GitLab method
-> Press the '+' button located near your branch name. In the dropdown list, press the 'New branch' button. This will allow you to create a name for your branch. Once the branch has been named, you can select 'Create Branch' to push the branch to your repository.
-
-- Android Studio method
-> In Android Studio, Go to the 'Git' button on the top toolbar. Select the new branch option and create a name for the branch. Make sure checkout branch is selected and press create. You can now add a commit message and push the new branch to the local repo.
-
-## SUPPORT
-If you need additional support, please navigate to the course page and reach out to your course instructor.
-## FUTURE USE
-Take this opportunity to create or add to a simple resume portfolio to highlight and showcase your work for future use in career search, experience, and education!
-
+## Link to Git Repository
+ - 
