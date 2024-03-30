@@ -21,9 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Declare the ManageVacationActivity -->
         <activity android:name=".ManageVacationActivity" />
         <activity android:name=".VacationListActivity" />
+        <activity android:name=".ExcursionListActivity" />
+        <activity android:name=".ExcursionActivity" />
+        <activity android:name=".ViewVacationActivity" />
     </application>
 
 </manifest>

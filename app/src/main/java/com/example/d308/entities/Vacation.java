@@ -3,6 +3,9 @@ package com.example.d308.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(tableName = "vacation_table")
 public class Vacation {
     @PrimaryKey(autoGenerate = true)

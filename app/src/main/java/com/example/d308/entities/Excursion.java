@@ -9,7 +9,7 @@ public class Excursion {
     private int id;
     private int vacationId; // foreign key
     private String name;
-    // other fields...
+    private String date;
 
     // getters and setters...
     public int getId() {
@@ -35,4 +35,15 @@ public class Excursion {
     public void setName(String name) {
         this.name = name;
     }
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+    /* public Excursion(String name, String date) {
+        this.name = name;
+        this.date = date;
+    } */
 }

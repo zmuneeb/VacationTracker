@@ -39,4 +39,8 @@ public class VacationViewModel extends AndroidViewModel {
     public LiveData<Vacation> getVacationById(long id) {
         return repository.getVacationById(id);
     }
+
+    public LiveData<Vacation> getLastVacation() {
+        return repository.getLastVacation();
+    }
 }

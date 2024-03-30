@@ -1,6 +1,7 @@
 package com.example.d308;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,38 +11,43 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.d308.entities.Excursion;
 import com.example.d308.entities.Vacation;
+import com.example.d308.viewmodel.ExcursionViewModel;
 import com.example.d308.viewmodel.VacationViewModel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class ManageVacationActivity extends AppCompatActivity {
     private VacationViewModel vacationViewModel;
+    private ExcursionViewModel excursionViewModel;
     private Vacation currentVacation;
     private EditText nameEditText;
     private Button startDateButton;
     private Button endDateButton;
-    private EditText excursionNameEditText;
-    private Button excursionDateButton;
-    private CheckBox addExcursionCheckBox;
+    private List<Excursion> selectedExcursionsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vacation);
         vacationViewModel = new ViewModelProvider(this).get(VacationViewModel.class);
+        excursionViewModel = new ViewModelProvider(this).get(ExcursionViewModel.class);
         nameEditText = findViewById(R.id.nameEditText);
         startDateButton = findViewById(R.id.startDateButton);
         endDateButton = findViewById(R.id.endDateButton);
-        excursionNameEditText = findViewById(R.id.excursionNameEditText);
-        excursionDateButton = findViewById(R.id.excursionDate);
-        addExcursionCheckBox = findViewById(R.id.addExcursionCheckBox);
 
         int vacationId = getIntent().getIntExtra("vacationId", -1);
         if (vacationId != -1) {
@@ -54,15 +60,21 @@ public class ManageVacationActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.placeOfStayEditText)).setText(vacation.getPlaceOfStay());
                     startDateButton.setText(vacation.getStartDate());
                     endDateButton.setText(vacation.getEndDate());
-                    excursionNameEditText.setText(vacation.getExcursionName());
                     currentVacation = vacation;
                 }
             });
         }
 
+        excursionViewModel = new ViewModelProvider(this).get(ExcursionViewModel.class);
+        excursionViewModel.getExcursionsForVacation(vacationId).observe(this, new Observer<List<Excursion>>() {
+            @Override
+            public void onChanged(List<Excursion> excursions) {
+                // Update your UI with the list of excursions
+            }
+        });
+
         final Calendar startDateCalendar = Calendar.getInstance();
         final Calendar endDateCalendar = Calendar.getInstance();
-        final Calendar excursionDateCalendar = Calendar.getInstance();
 
         DatePickerDialog.OnDateSetListener startDatePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -70,7 +82,7 @@ public class ManageVacationActivity extends AppCompatActivity {
                 startDateCalendar.set(Calendar.YEAR, year);
                 startDateCalendar.set(Calendar.MONTH, monthOfYear);
                 startDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "MM/dd/yy"; // your format
+                String myFormat = "MM/dd/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 startDateButton.setText(sdf.format(startDateCalendar.getTime()));
             }
@@ -115,46 +127,11 @@ public class ManageVacationActivity extends AppCompatActivity {
             }
         });
 
-        DatePickerDialog.OnDateSetListener excursionDatePicker = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar selectedDate = Calendar.getInstance();
-                selectedDate.set(Calendar.YEAR, year);
-                selectedDate.set(Calendar.MONTH, monthOfYear);
-                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                if (selectedDate.before(startDateCalendar) || selectedDate.after(endDateCalendar)) {
-                    Toast.makeText(ManageVacationActivity.this, "Excursion date must be within the vacation dates", Toast.LENGTH_SHORT).show();
-                } else {
-                    excursionDateCalendar.set(Calendar.YEAR, year);
-                    excursionDateCalendar.set(Calendar.MONTH, monthOfYear);
-                    excursionDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    String myFormat = "MM/dd/yy"; // your format
-                    SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                    excursionDateButton.setText(sdf.format(excursionDateCalendar.getTime()));
-                }
-            }
-        };
-
-        excursionDateButton.setOnClickListener(new View.OnClickListener() {
+        Button addExcursionButton = findViewById(R.id.addExcursionButton);
+        addExcursionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(ManageVacationActivity.this, excursionDatePicker, excursionDateCalendar
-                        .get(Calendar.YEAR), excursionDateCalendar.get(Calendar.MONTH),
-                        excursionDateCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
-        addExcursionCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    excursionNameEditText.setVisibility(View.VISIBLE);
-                    excursionDateButton.setVisibility(View.VISIBLE);
-                } else {
-                    excursionNameEditText.setVisibility(View.GONE);
-                    excursionDateButton.setVisibility(View.GONE);
-                }
+                showExcursionSelectionDialog();
             }
         });
 
@@ -180,18 +157,112 @@ public class ManageVacationActivity extends AppCompatActivity {
                     currentVacation.setStartDate(startDate);
                     currentVacation.setEndDate(endDate);
 
-                    String excursionName = excursionNameEditText.getText().toString();
-                    if (!excursionName.isEmpty()) {
-                        currentVacation.setExcursionName(excursionName);
-                    }
-
                     if (currentVacation.getId() == 0) {
                         vacationViewModel.insert(currentVacation);
+                        vacationViewModel.getLastVacation().observe(ManageVacationActivity.this, new Observer<Vacation>() {
+                            @Override
+                            public void onChanged(Vacation vacation) {
+                                currentVacation = vacation;
+                                for (Excursion excursion : selectedExcursionsList) {
+                                    excursion.setVacationId(currentVacation.getId());
+                                    excursionViewModel.update(excursion); // Update the excursion instead of inserting it
+                                }
+                                vacationViewModel.getLastVacation().removeObserver(this);
+                            }
+                        });
                     } else {
                         vacationViewModel.update(currentVacation);
+                        for (Excursion excursion : selectedExcursionsList) {
+                            excursion.setVacationId(currentVacation.getId());
+                            excursionViewModel.update(excursion); // Update the excursion instead of inserting it
+                        }
                     }
-                    finish();
                 }
+                finish();
+            }
+        });
+    }
+    private void showExcursionSelectionDialog() {
+        MutableLiveData<List<Excursion>> mutableLiveData = new MutableLiveData<>();
+
+        // Observe the MutableLiveData instead of the LiveData from ViewModel
+        mutableLiveData.observe(this, new Observer<List<Excursion>>() {
+            @Override
+            public void onChanged(List<Excursion> allExcursions) {
+                if (allExcursions == null || allExcursions.isEmpty()) {
+                    Toast.makeText(ManageVacationActivity.this, "No excursions available", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Create an array of excursion names
+                String[] excursionNames = new String[allExcursions.size()];
+                for (int i = 0; i < allExcursions.size(); i++) {
+                    excursionNames[i] = allExcursions.get(i).getName();
+                }
+
+                // Create a boolean array for selected excursions
+                final boolean[] selectedExcursions = new boolean[allExcursions.size()];
+
+                // Show the dialog
+                new AlertDialog.Builder(ManageVacationActivity.this)
+                        .setTitle("Select Excursions")
+                        .setMultiChoiceItems(excursionNames, selectedExcursions, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                // Update the selectedExcursions array
+                                selectedExcursions[which] = isChecked;
+                            }
+                        })
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Clear the selectedExcursionsList to avoid duplicates
+                                selectedExcursionsList.clear();
+
+                                // Save the selected excursions to the list
+                                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
+                                for (int i = 0; i < allExcursions.size(); i++) {
+                                    if (selectedExcursions[i]) {
+                                        Excursion selectedExcursion = allExcursions.get(i);
+                                        try {
+                                            Date excursionDate = sdf.parse(selectedExcursion.getDate());
+                                            Date vacationStartDate = sdf.parse(currentVacation.getStartDate());
+                                            Date vacationEndDate = sdf.parse(currentVacation.getEndDate());
+
+                                            if (excursionDate.before(vacationStartDate) || excursionDate.after(vacationEndDate)) {
+                                                Toast.makeText(ManageVacationActivity.this, "The excursion " + selectedExcursion.getName() + " is not within the vacation time.", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                selectedExcursionsList.add(selectedExcursion);
+                                            }
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                // If a vacation is already selected, update the excursions immediately
+                                if (currentVacation != null) {
+                                    for (Excursion excursion : selectedExcursionsList) {
+                                        excursion.setVacationId(currentVacation.getId());
+                                        excursionViewModel.update(excursion);
+                                    }
+                                }
+
+                                // Remove the observer
+                                mutableLiveData.removeObservers(ManageVacationActivity.this);
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            }
+        });
+
+        // Get all excursions from ViewModel and set the value of MutableLiveData
+        excursionViewModel.getAllExcursions().observe(this, new Observer<List<Excursion>>() {
+            @Override
+            public void onChanged(List<Excursion> allExcursions) {
+                mutableLiveData.setValue(allExcursions);
+                excursionViewModel.getAllExcursions().removeObserver(this);
             }
         });
     }

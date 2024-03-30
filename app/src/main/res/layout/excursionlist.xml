@@ -7,7 +7,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vacations"
+        android:text="Excursions"
         android:textSize="30sp"
         android:gravity="center_horizontal"
         android:textStyle="bold"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
-        android:layout_above="@+id/addVacationButton"
+        android:layout_above="@+id/addExcursionButton"
         android:padding="16dp"
         android:scrollbars="vertical"/>
 
@@ -27,25 +27,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="No vacations added yet!"
+        android:text="No excursions added yet!"
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/excursionListButton"
+        android:id="@+id/vacationListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:text="View Excursions"/>
+        android:text="View Vacations"/>
 
     <Button
-        android:id="@+id/addVacationButton"
+        android:id="@+id/addExcursionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:text="Add Vacation" />
+        android:text="Add Excursion" />
 
 </RelativeLayout>

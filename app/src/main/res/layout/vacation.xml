@@ -40,25 +40,11 @@
             android:layout_height="wrap_content"
             android:hint="Select End Date"/>
 
-        <CheckBox
-            android:id="@+id/addExcursionCheckBox"
+        <Button
+            android:id="@+id/addExcursionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add excursion" />
-
-        <EditText
-            android:id="@+id/excursionNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Excursion name"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/excursionDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Excursion Date"
-            android:visibility="gone" />
+            android:text="Add Excursion" />
 
         <Button
             android:id="@+id/saveButton"

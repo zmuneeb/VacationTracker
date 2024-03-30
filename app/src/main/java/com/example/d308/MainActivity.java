@@ -24,5 +24,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button excursionListButton = findViewById(R.id.excursionListButton);
+        excursionListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to ExcursionListActivity
+                Intent intent = new Intent(MainActivity.this, ExcursionListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
