@@ -1,8 +1,10 @@
 package com.example.d308;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.d308.entities.Excursion;
 import com.example.d308.entities.Vacation;
@@ -31,17 +34,41 @@ public class VacationListActivity extends AppCompatActivity {
     private VacationViewModel vacationViewModel;
     private ExcursionViewModel excursionViewModel;
     private VacationAdapter adapter;
+    private BroadcastReceiver vacationAlarmReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+
+            new AlertDialog.Builder(VacationListActivity.this)
+                    .setTitle("Alarm")
+                    .setMessage(message)
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(vacationAlarmReceiver, new IntentFilter("VacationAlarm"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(vacationAlarmReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vacationlist);
 
-        // Initialize the ViewModel
         vacationViewModel = new ViewModelProvider(this).get(VacationViewModel.class);
         excursionViewModel = new ViewModelProvider(this).get(ExcursionViewModel.class);
 
-        // Set up the ListView and the empty view
         ListView listView = findViewById(R.id.listView);
         TextView emptyView = findViewById(R.id.emptyView);
         listView.setEmptyView(emptyView);
