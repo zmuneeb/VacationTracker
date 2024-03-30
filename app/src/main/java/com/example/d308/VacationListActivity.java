@@ -182,7 +182,6 @@ public class VacationListActivity extends AppCompatActivity {
                     vacationDetails.append("Start Date: ").append(vacation.getStartDate()).append("\n");
                     vacationDetails.append("End Date: ").append(vacation.getEndDate()).append("\n");
 
-                    // Add the excursions to the vacation details
                     if (latestExcursions != null) {
                         for (Excursion excursion : latestExcursions) {
                             vacationDetails.append("Excursion: ").append(excursion.getName()).append(" on ").append(excursion.getDate()).append("\n");

@@ -7,11 +7,9 @@ import androidx.room.PrimaryKey;
 public class Excursion {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private int vacationId; // foreign key
+    private int vacationId;
     private String name;
     private String date;
-
-    // getters and setters...
     public int getId() {
         return id;
     }
@@ -26,8 +24,6 @@ public class Excursion {
     public void setId(int id) {
         this.id = id;
     }
-
-    // Getter and setter for name
     public String getName() {
         return name;
     }

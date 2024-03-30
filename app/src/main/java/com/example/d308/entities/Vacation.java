@@ -21,8 +21,6 @@ public class Vacation {
 
     private String endDate;
     private String excursionName;
-
-    // Getter and setter for id
     public int getId() {
         return id;
     }
@@ -30,8 +28,6 @@ public class Vacation {
     public void setId(int id) {
         this.id = id;
     }
-
-    // Getter and setter for name
     public String getName() {
         return name;
     }
@@ -46,8 +42,6 @@ public class Vacation {
     public void setLocation(String location) {
         this.location = location;
     }
-
-    // Add getters and setters for other fields...
     public String getPlaceOfStay() {
         return placeOfStay;
     }
@@ -55,8 +49,6 @@ public class Vacation {
     public void setPlaceOfStay(String placeOfStay) {
         this.placeOfStay = placeOfStay;
     }
-
-    // Getter and setter for startDate
     public String getStartDate() {
         return startDate;
     }
@@ -64,8 +56,6 @@ public class Vacation {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
-
-    // Getter and setter for endDate
     public String getEndDate() {
         return endDate;
     }
