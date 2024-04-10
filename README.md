@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <strong> **DO NOT DISTRIBUTE OR PUBLICLY POST SOLUTIONS TO THESE LABS. MAKE ALL FORKS OF THIS REPOSITORY WITH SOLUTION CODE PRIVATE. PLEASE REFER TO THE STUDENT CODE OF CONDUCT AND ETHICAL EXPECTATIONS FOR COLLEGE OF INFORMATION TECHNOLOGY STUDENTS FOR SPECIFICS. ** </strong>
 
 # WESTERN GOVERNOR UNIVERSITY 
@@ -48,3 +49,8 @@
 
 ## Link to Git Repository
  - https://gitlab.com/wgu-gitlab-environment/student-repos/mzaman8/d308-mobile-application-development-android/-/tree/working_branch
+=======
+## D424 Software Engineering Capstone
+
+Students run the CI Pipeline to create your D287 Java Frameworks project for completing the PA
+>>>>>>> 6386c3e33396b5470901e6aad0e0de817e14e5d3
