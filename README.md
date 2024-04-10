@@ -23,25 +23,6 @@
   - The View/Update is the same as the "Add Excursion" page, since the information for excursions is just two fields, it can be used to view the excursion information as well.
   - The Delete button will delete the excursion.
 
-## Rubric Checklist
- - The application uses the Room Framework and implements validation.
- - The application allows users to add a title, accommodation, start and end dates for each vacation.
- - The application allows user to see detailed view of a vacation, and to update vacation information.
- - The application allows user to enter, edit, and delete vacation information.
- - The application inputs validation that input dates are formatted correctly.
- - The application includes validation that the end date is after the start date.
- - The application includes alert that the user can set which will trigger on start and end date.
- - The application includes sharing features.
- - The application displays a list of excursions associated with vacations.
- - The application can add, update, and delete as many excursions as needed.
- - The application includes the excursion title and date for each excursion.
- - The application includes all 5 of the given interface requirements.
- - The screen designs include layout for each given screen as described and includes appropriate GUI elements for each layout.
- - The storyboard demonstrates the flow of the application and includes the menus and screen from part B.
- - The screenshots provided for APK signing are provided.
- - The application includes all 4 of the Readme file requirements.
- - Content is organized and database retrieval is smooth and accurate, and attention to detail is given.
-
 ## Android Version
  - The minimum SDK version for the app is 26, or Android 8.0.
 
