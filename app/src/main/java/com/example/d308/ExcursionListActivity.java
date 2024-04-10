@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,6 +45,19 @@ public class ExcursionListActivity extends AppCompatActivity {
                     .show();
         }
     };
+    private void filter(String text) {
+        if (text.isEmpty()) {
+            adapter.filterList(new ArrayList<>(adapter.originalExcursions));
+        } else {
+            List<Excursion> filteredList = new ArrayList<>();
+            for (Excursion excursion : adapter.originalExcursions) {
+                if (excursion.getName().toLowerCase().contains(text.toLowerCase())) {
+                    filteredList.add(excursion);
+                }
+            }
+            adapter.filterList(filteredList);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -75,7 +91,24 @@ public class ExcursionListActivity extends AppCompatActivity {
             public void onChanged(List<Excursion> excursions) {
                 adapter.clear();
                 adapter.addAll(excursions);
+                adapter.originalExcursions = new ArrayList<>(excursions);
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        EditText searchEditText = findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -102,6 +135,22 @@ public class ExcursionListActivity extends AppCompatActivity {
         public ExcursionAdapter(Context context, List<Excursion> excursions) {
             super(context, R.layout.excursion_item, excursions);
             this.context = context;
+        }
+
+        private List<Excursion> originalExcursions;
+
+        public List<Excursion> getAllExcursions() {
+            List<Excursion> allExcursions = new ArrayList<>();
+            for (int i = 0; i < getCount(); i++) {
+                allExcursions.add(getItem(i));
+            }
+            return allExcursions;
+        }
+
+        public void filterList(List<Excursion> filteredList) {
+            clear();
+            addAll(filteredList);
+            notifyDataSetChanged();
         }
 
         @NonNull

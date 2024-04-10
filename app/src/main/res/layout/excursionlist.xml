@@ -12,11 +12,20 @@
         android:textStyle="bold"
         android:padding="10dp" />
 
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:hint="Search..."
+        android:inputType="text"
+        android:padding="10dp" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
+        android:layout_below="@+id/searchEditText"
         android:layout_above="@+id/addExcursionButton"
         android:padding="16dp"
         android:scrollbars="vertical"/>

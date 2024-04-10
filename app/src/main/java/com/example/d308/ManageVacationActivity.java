@@ -42,6 +42,7 @@ public class ManageVacationActivity extends AppCompatActivity {
     private EditText nameEditText;
     private Button startDateButton;
     private Button endDateButton;
+    private int userId;
     private List<Excursion> selectedExcursionsList = new ArrayList<>();
 
     @Override
@@ -53,6 +54,7 @@ public class ManageVacationActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.nameEditText);
         startDateButton = findViewById(R.id.startDateButton);
         endDateButton = findViewById(R.id.endDateButton);
+        String username = getIntent().getStringExtra("username");
 
         int vacationId = getIntent().getIntExtra("vacationId", -1);
         if (vacationId != -1) {
@@ -160,6 +162,7 @@ public class ManageVacationActivity extends AppCompatActivity {
                     currentVacation.setPlaceOfStay(placeOfStay);
                     currentVacation.setStartDate(startDate);
                     currentVacation.setEndDate(endDate);
+                    currentVacation.setUserId(userId);
 
                     if (currentVacation.getId() == 0) {
                         vacationViewModel.insert(currentVacation);

@@ -1,5 +1,6 @@
 package com.example.d308.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,6 +8,8 @@ import androidx.room.PrimaryKey;
 public class Excursion {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "user_id")
+    private int userId;
     private int vacationId;
     private String name;
     private String date;
@@ -24,6 +27,8 @@ public class Excursion {
     public void setId(int id) {
         this.id = id;
     }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
     public String getName() {
         return name;
     }
@@ -38,8 +43,4 @@ public class Excursion {
     public void setDate(String date) {
         this.date = date;
     }
-    /* public Excursion(String name, String date) {
-        this.name = name;
-        this.date = date;
-    } */
 }

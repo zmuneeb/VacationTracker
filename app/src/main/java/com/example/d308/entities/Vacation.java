@@ -1,5 +1,6 @@
 package com.example.d308.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public class Vacation {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "user_id")
+    private int userId;
 
     private String name;
 
@@ -28,6 +31,8 @@ public class Vacation {
     public void setId(int id) {
         this.id = id;
     }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
     public String getName() {
         return name;
     }

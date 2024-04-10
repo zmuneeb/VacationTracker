@@ -30,8 +30,7 @@ public interface ExcursionDao {
 
     @Query("SELECT * FROM excursion_table")
     LiveData<List<Excursion>> getAllExcursions();
-
-    @Query("SELECT * FROM excursion_table")
-    List<Excursion> getAllExcursionsSync();
+    @Query("SELECT * FROM excursion_table WHERE user_id = :userId")
+    List<Excursion> getExcursionsByUserId(int userId);
 
 }

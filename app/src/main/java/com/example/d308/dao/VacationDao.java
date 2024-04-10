@@ -27,4 +27,6 @@ public interface VacationDao {
 
     @Query("SELECT * FROM vacation_table ORDER BY id DESC LIMIT 1")
     LiveData<Vacation> getLastVacation();
+    @Query("SELECT * FROM vacation_table WHERE user_id = :userId")
+    List<Vacation> getVacationsByUserId(int userId);
 }

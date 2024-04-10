@@ -1,16 +1,20 @@
 package com.example.d308;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,13 +42,24 @@ public class VacationListActivity extends AppCompatActivity {
     private VacationViewModel vacationViewModel;
     private ExcursionViewModel excursionViewModel;
     private VacationAdapter adapter;
+    private void filter(String text) {
+        if (text.isEmpty()) {
+            adapter.filterList(new ArrayList<>(adapter.originalVacations));
+        } else {
+            List<Vacation> filteredList = new ArrayList<>();
+            for (Vacation vacation : adapter.originalVacations) {
+                if (vacation.getName().toLowerCase().contains(text.toLowerCase())) {
+                    filteredList.add(vacation);
+                }
+            }
+            adapter.filterList(filteredList);
+        }
+    }
     private BroadcastReceiver vacationAlarmReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String title = intent.getStringExtra(VacationAlarmReceiver.EXTRA_TITLE);
             String type = intent.getStringExtra(VacationAlarmReceiver.EXTRA_TYPE);
-
-            // Get the current date
             String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
 
             String message = "Vacation " + type + ": " + title + " on " + date;
@@ -88,10 +103,26 @@ public class VacationListActivity extends AppCompatActivity {
         vacationViewModel.getAllVacations().observe(this, new Observer<List<Vacation>>() {
             @Override
             public void onChanged(List<Vacation> vacations) {
-                // Update the ListView
                 adapter.clear();
                 adapter.addAll(vacations);
+                adapter.originalVacations = new ArrayList<>(vacations);
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) EditText searchEditText = findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -115,10 +146,24 @@ public class VacationListActivity extends AppCompatActivity {
     private class VacationAdapter extends ArrayAdapter<Vacation> {
         private Context context;
         private List<Excursion> latestExcursions;
+        private List<Vacation> originalVacations;
 
         public VacationAdapter(Context context, List<Vacation> vacations) {
             super(context, R.layout.vacation_item, vacations);
             this.context = context;
+        }
+        public List<Vacation> getAllVacations() {
+            List<Vacation> allVacations = new ArrayList<>();
+            for (int i = 0; i < getCount(); i++) {
+                allVacations.add(getItem(i));
+            }
+            return allVacations;
+        }
+
+        public void filterList(List<Vacation> filteredList) {
+            adapter.clear();
+            adapter.addAll(filteredList);
+            adapter.notifyDataSetChanged();
         }
 
         @NonNull
