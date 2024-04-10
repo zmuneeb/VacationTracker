@@ -7,7 +7,8 @@
  - The user can view and share the vacations that they create.
 
 ## How to operate the app
- - Once the user opens the app, they will be welcomed on the homepage. They have two options, view their vacations or view their excursions.
+ - Once the user opens the app, they will be introduced to the login page. For new users, they will create "Sign up" and create an account.
+ - Once they create an account and log in, they will be welcomed on the homepage. They have two options, view their vacations or view their excursions.
  - If they click on the vacations, they will land on the Vacations page. Currently it will be empty if this is the user's first time, so they will have to click the button that says "Add Vacation".
  - The "Add Vacation" page allows the user to add information for their vacation.
  - Similarly, the Excursions page behaves in the same fashion.
