@@ -10,13 +10,13 @@ public class ExcursionDateValidatorTest {
     @Test
     public void testExcursionDateWithinVacationDates() {
         Calendar vacationStartDate = Calendar.getInstance();
-        vacationStartDate.set(2022, Calendar.JANUARY, 1);
+        vacationStartDate.set(2024, Calendar.JANUARY, 1);
 
         Calendar vacationEndDate = Calendar.getInstance();
-        vacationEndDate.set(2022, Calendar.DECEMBER, 31);
+        vacationEndDate.set(2024, Calendar.DECEMBER, 31);
 
         Calendar excursionDate = Calendar.getInstance();
-        excursionDate.set(2022, Calendar.JUNE, 15);
+        excursionDate.set(2024, Calendar.JUNE, 15);
 
         assertTrue(excursionDateValidator.isExcursionDateValid(vacationStartDate, vacationEndDate, excursionDate));
     }
@@ -24,13 +24,13 @@ public class ExcursionDateValidatorTest {
     @Test
     public void testExcursionDateOutsideVacationDates() {
         Calendar vacationStartDate = Calendar.getInstance();
-        vacationStartDate.set(2022, Calendar.JANUARY, 1);
+        vacationStartDate.set(2024, Calendar.JANUARY, 1);
 
         Calendar vacationEndDate = Calendar.getInstance();
-        vacationEndDate.set(2022, Calendar.DECEMBER, 31);
+        vacationEndDate.set(2024, Calendar.DECEMBER, 31);
 
         Calendar excursionDate = Calendar.getInstance();
-        excursionDate.set(2023, Calendar.JANUARY, 1);
+        excursionDate.set(2025, Calendar.JANUARY, 1);
 
         assertFalse(excursionDateValidator.isExcursionDateValid(vacationStartDate, vacationEndDate, excursionDate));
     }

@@ -40,7 +40,6 @@ public class DaoTest {
 
     @Test
     public void testVacationAndExcursionCreation() throws InterruptedException {
-        // Create and insert a vacation
         Vacation vacation = new Vacation();
         vacation.setName("Test Vacation");
 
@@ -49,7 +48,6 @@ public class DaoTest {
         Vacation lastVacation = LiveDataTestUtil.getValue(vacationDao.getLastVacation());
         assertEquals(vacation.getName(), lastVacation.getName());
 
-        // Create and insert an excursion
         Excursion excursion = new Excursion();
         excursion.setName("Test Excursion");
 

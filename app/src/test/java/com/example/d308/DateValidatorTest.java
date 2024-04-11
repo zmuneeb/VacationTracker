@@ -10,10 +10,10 @@ public class DateValidatorTest {
     @Test
     public void testEndDateBeforeStartDate() {
         Calendar startDate = Calendar.getInstance();
-        startDate.set(2022, Calendar.DECEMBER, 31);
+        startDate.set(2024, Calendar.DECEMBER, 31);
 
         Calendar endDate = Calendar.getInstance();
-        endDate.set(2022, Calendar.JANUARY, 1);
+        endDate.set(2024, Calendar.JANUARY, 1);
 
         assertFalse(dateValidator.isEndDateValid(startDate, endDate));
     }
@@ -21,10 +21,10 @@ public class DateValidatorTest {
     @Test
     public void testEndDateAfterStartDate() {
         Calendar startDate = Calendar.getInstance();
-        startDate.set(2022, Calendar.JANUARY, 1);
+        startDate.set(2024, Calendar.JANUARY, 1);
 
         Calendar endDate = Calendar.getInstance();
-        endDate.set(2022, Calendar.DECEMBER, 31);
+        endDate.set(2024, Calendar.DECEMBER, 31);
 
         assertTrue(dateValidator.isEndDateValid(startDate, endDate));
     }
