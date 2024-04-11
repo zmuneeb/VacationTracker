@@ -1,8 +1,6 @@
 package com.example.d308.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import com.example.d308.dao.ExcursionDao;
@@ -75,5 +73,8 @@ public class AppRepository {
 
     public LiveData<Vacation> getLastVacation() {
         return vacationDao.getLastVacation();
+    }
+    public LiveData<Excursion> getLastExcursion() {
+        return excursionDao.getLastExcursion();
     }
 }

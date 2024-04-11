@@ -7,7 +7,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import com.example.d308.entities.Excursion;
-import com.example.d308.entities.Vacation;
 
 import java.util.List;
 
@@ -32,5 +31,8 @@ public interface ExcursionDao {
     LiveData<List<Excursion>> getAllExcursions();
     @Query("SELECT * FROM excursion_table WHERE user_id = :userId")
     List<Excursion> getExcursionsByUserId(int userId);
+
+    @Query("SELECT * FROM excursion_table ORDER BY id DESC LIMIT 1")
+    LiveData<Excursion> getLastExcursion();
 
 }

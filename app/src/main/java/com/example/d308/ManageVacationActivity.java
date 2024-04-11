@@ -10,23 +10,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.d308.entities.Excursion;
 import com.example.d308.entities.Vacation;
 import com.example.d308.viewmodel.ExcursionViewModel;
 import com.example.d308.viewmodel.VacationViewModel;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +39,7 @@ public class ManageVacationActivity extends AppCompatActivity {
     private Button endDateButton;
     private int userId;
     private List<Excursion> selectedExcursionsList = new ArrayList<>();
+    private DateValidator dateValidator = new DateValidator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +107,7 @@ public class ManageVacationActivity extends AppCompatActivity {
                 selectedDate.set(Calendar.MONTH, monthOfYear);
                 selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                if (selectedDate.before(startDateCalendar)) {
+                if (!dateValidator.isEndDateValid(startDateCalendar, selectedDate)) {
                     Toast.makeText(ManageVacationActivity.this, "End date cannot be before start date", Toast.LENGTH_SHORT).show();
                 } else {
                     endDateCalendar.set(Calendar.YEAR, year);
@@ -234,6 +230,7 @@ public class ManageVacationActivity extends AppCompatActivity {
             }
         });
     }
+    ExcursionDateValidator excursionDateValidator = new ExcursionDateValidator();
     private void showExcursionSelectionDialog() {
         MutableLiveData<List<Excursion>> mutableLiveData = new MutableLiveData<>();
 
@@ -275,7 +272,16 @@ public class ManageVacationActivity extends AppCompatActivity {
                                             Excursion selectedExcursion = allExcursions.get(i);
                                             Date excursionDate = sdf.parse(selectedExcursion.getDate());
 
-                                            if (excursionDate.before(vacationStartDate) || excursionDate.after(vacationEndDate)) {
+                                            Calendar vacationStartCalendar = Calendar.getInstance();
+                                            vacationStartCalendar.setTime(vacationStartDate);
+
+                                            Calendar vacationEndCalendar = Calendar.getInstance();
+                                            vacationEndCalendar.setTime(vacationEndDate);
+
+                                            Calendar excursionCalendar = Calendar.getInstance();
+                                            excursionCalendar.setTime(excursionDate);
+
+                                            if (!excursionDateValidator.isExcursionDateValid(vacationStartCalendar, vacationEndCalendar, excursionCalendar)) {
                                                 Toast.makeText(ManageVacationActivity.this, "The excursion " + selectedExcursion.getName() + " is not within the vacation time.", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 selectedExcursionsList.add(selectedExcursion);

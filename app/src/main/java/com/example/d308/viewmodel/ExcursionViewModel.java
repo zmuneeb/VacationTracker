@@ -43,4 +43,7 @@ public class ExcursionViewModel extends AndroidViewModel {
     public LiveData<List<Excursion>> getExcursionsForVacation(int vacationId) {
         return repository.getExcursionsForVacation(vacationId);
     }
+    public LiveData<Excursion> getLastExcursion() {
+        return repository.getLastExcursion();
+    }
 }

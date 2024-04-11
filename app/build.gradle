@@ -32,6 +32,13 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
     testImplementation libs.junit
+    androidTestImplementation libs.junit.v113
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    implementation 'androidx.core:core:1.7.0'
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
