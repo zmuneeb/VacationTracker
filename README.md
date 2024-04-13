@@ -1,4 +1,4 @@
-# Vacation Tracker Mobile Application
+# Vacation Tracker Mobile Application (Android)
 
 ## Vacation Tracker Application
  - The purpose of the application is to allow users to add vacations and excursions associated with their vacations.
