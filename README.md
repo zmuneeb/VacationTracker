@@ -26,4 +26,4 @@
  - The minimum SDK version for the app is 26, or Android 8.0.
 
 ## Link to GitHub Repository
- - 
+ - https://github.com/zmuneeb/VacationTracker.git
